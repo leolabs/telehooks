@@ -23,10 +23,16 @@ app.post("/:chatId/:key?", async (req, res) => {
     res.status(400).json({ error: "Chat ID is not set" });
     return;
   }
+  const debugUrl = `https://api.slack.com/docs/messages/builder?msg=${encodeURIComponent(
+    JSON.stringify(req.body),
+  )}`;
 
   const text =
     (body.text ? `${body.text}\n\n` : "") +
-    (body.attachments ? parseText(body.attachments[0]) : "");
+    (body.attachments ? parseText(body.attachments[0]) : "") +
+    (Object.keys(req.query).includes("debug")
+      ? `\n\n[(View Original Message)](${debugUrl})`
+      : "");
 
   if (!text) {
     res.status(400).json({ error: "The message is empty." });
@@ -59,26 +65,6 @@ app.post("/:chatId/:key?", async (req, res) => {
         key,
       );
     }
-  }
-
-  if (Object.keys(req.query).includes("debug")) {
-    const debugUrl = `https://api.slack.com/docs/messages/builder?msg=${encodeURIComponent(
-      JSON.stringify(req.body),
-    )}`;
-
-    await sendMessage(
-      {
-        chat_id: chatId,
-        text: `*Debug Slack Webhook:*`,
-        parse_mode: "Markdown",
-        reply_markup: {
-          inline_keyboard: [[{ text: "View Original Message", url: debugUrl }]],
-        },
-        disable_notification: true,
-        disable_web_page_preview: true,
-      },
-      key,
-    );
   }
 
   res.status(204).send();
