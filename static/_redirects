@@ -1,0 +1,1 @@
+/hook/*  https://us-central1-telehooks.cloudfunctions.net/webhook/:splat  200!
