@@ -11,7 +11,7 @@ const DEFAULT_KEY = firebase.config().telegram.key;
 app.use(bodyParser.json());
 
 app.get("*", (req, res) => {
-  res.redirect(`https://telehooks.dev/edit${req.url}`);
+  res.redirect(`https://telehooks.dev/#${req.url.substr(1)}`);
 });
 
 app.post("/:chatId/:key?", async (req, res) => {
