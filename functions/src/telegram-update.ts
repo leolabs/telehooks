@@ -62,7 +62,7 @@ export const telegramUpdate = firebase.https.onRequest(async (req, res) => {
           [
             {
               text: "Visit Telehooks Homepage",
-              url: "https://telehooks.dev/",
+              url: `https://telehooks.dev/#${message.chat.id}`,
             },
           ],
         ],
@@ -101,7 +101,7 @@ export const telegramUpdate = firebase.https.onRequest(async (req, res) => {
           [
             {
               text: "Visit Telehooks Homepage",
-              url: `https://telehooks.dev/edit/${message.chat.id}`,
+              url: `https://telehooks.dev/#${message.chat.id}`,
             },
           ],
         ],

@@ -1,7 +1,7 @@
 import React from "react";
 import { graphql } from "gatsby";
 
-const Index = ({ data }) => <div>Hello, this is Telehooks!</div>;
+const Index = ({ data }) => <div>404, page not found!</div>;
 
 export const query = graphql`
   {
