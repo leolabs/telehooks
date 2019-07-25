@@ -10,6 +10,7 @@ module.exports = {
     `gatsby-plugin-typescript`,
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-linaria`,
+    `gatsby-plugin-sass`,
     `gatsby-plugin-netlify`,
   ],
 };
