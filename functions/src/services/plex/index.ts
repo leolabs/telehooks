@@ -69,7 +69,7 @@ const parser: ServiceParser = async (
 
   if (
     !Object.keys(supportedEvents).includes(parsedInput.event) ||
-    !watchedEvents.includes(parsedInput.event as any)
+    !watchedEvents.includes(parsedInput.event)
   ) {
     return null;
   }
