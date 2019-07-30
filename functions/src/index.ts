@@ -1,2 +1,2 @@
 export * from "./webhook";
-export * from "./telegram-update";
+export * from "./bot";

@@ -1,6 +1,12 @@
 import * as firebase from "firebase-functions";
 import { stripIndents, oneLine } from "common-tags";
 import { sendMessage, DEFAULT_KEY } from "./util/telegram";
+import { hash } from "./util/hash";
+
+const HOOK_URL = firebase.config().telehooks.url;
+
+const hookUrl = (chatId: string | number) =>
+  `${HOOK_URL}/${chatId}/${hash(String(chatId))}`;
 
 const aboutText = stripIndents`
   ${oneLine`If you want to use your own bot with Telehooks, that's possible as well.
@@ -49,7 +55,7 @@ export const telegramUpdate = firebase.https.onRequest(async (req, res) => {
 
       You can also send webhooks to this chat, if you prefer. Just use this URL:
 
-      \`https://telehooks.dev/hook/${message.chat.id}\`
+      \`${hookUrl(message.chat.id)}\`
 
       ${aboutText}
     `;
@@ -61,8 +67,8 @@ export const telegramUpdate = firebase.https.onRequest(async (req, res) => {
         inline_keyboard: [
           [
             {
-              text: "Visit Telehooks Homepage",
-              url: `https://telehooks.dev/#${message.chat.id}`,
+              text: "Customize Hook",
+              url: hookUrl(message.chat.id),
             },
           ],
         ],
@@ -85,7 +91,7 @@ export const telegramUpdate = firebase.https.onRequest(async (req, res) => {
       Thanks for adding me to your group! 🎉
 
       Here's your Webhook URL:
-      \`https://telehooks.dev/hook/${message.chat.id}\`
+      \`${hookUrl(message.chat.id)}\`
 
       You can use this URL with every service that accepts a Slack Webhook URL. To
       learn more and to customize the webhook, please visit my homepage.
@@ -100,8 +106,8 @@ export const telegramUpdate = firebase.https.onRequest(async (req, res) => {
         inline_keyboard: [
           [
             {
-              text: "Visit Telehooks Homepage",
-              url: `https://telehooks.dev/#${message.chat.id}`,
+              text: "Customize Hook",
+              url: hookUrl(message.chat.id),
             },
           ],
         ],
