@@ -1,6 +1,7 @@
 import { Request } from "express";
 import { SendMessageParams } from "../types/telegram-api";
 
+import { plex } from "./plex";
 import { slack } from "./slack";
 
 export type ParserOutput = Omit<SendMessageParams, "chat_id">[];
@@ -24,4 +25,5 @@ export interface Service {
 
 export const services: { [k: string]: Service } = {
   slack,
+  plex,
 };
