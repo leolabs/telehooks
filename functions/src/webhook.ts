@@ -20,7 +20,6 @@ app.post("/:chatId/:key/:service?", async (req, res) => {
     req.params.key && req.params.key.length !== 8
       ? req.params.key
       : DEFAULT_KEY;
-  const body: IncomingWebhookSendArguments = req.body;
   const service = req.params.service || "slack";
 
   if (!chatId) {
