@@ -57,9 +57,10 @@ const parser: ServiceParser = async (
   { events }: Settings,
   req,
 ) => {
-  const multipart = parseMultipart(req);
-  if (multipart) {
-    input = multipart;
+  const parsedInput = parseMultipart(req) || input;
+
+  if (!parsedInput.event) {
+    throw new Error("Body is malformed. Event field is missing.");
   }
 
   const watchedEvents: (keyof typeof supportedEvents)[] = events
@@ -67,15 +68,15 @@ const parser: ServiceParser = async (
     : ["library.new", "admin.database.corrupted"];
 
   if (
-    !Object.keys(supportedEvents).includes(input.event) ||
-    !watchedEvents.includes(input.event as any)
+    !Object.keys(supportedEvents).includes(parsedInput.event) ||
+    !watchedEvents.includes(parsedInput.event as any)
   ) {
     return null;
   }
 
   return [
     {
-      text: supportedEvents[input.event](input),
+      text: supportedEvents[parsedInput.event](parsedInput),
     },
   ];
 };
