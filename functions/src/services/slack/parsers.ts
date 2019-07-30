@@ -1,10 +1,10 @@
 import chunk from "lodash/chunk";
-import { createLink, escape } from "./markdown";
+import { createLink, escape } from "../../util/markdown";
 import { MessageAttachment } from "@slack/types";
 import {
   InlineKeyboardButton,
   InlineKeyboardMarkup,
-} from "../types/telegram-api";
+} from "../../types/telegram-api";
 
 export const parseText = (att: MessageAttachment) => {
   const textLines: string[] = [];
