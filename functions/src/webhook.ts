@@ -45,6 +45,11 @@ app.post("/:chatId/:key/:service?", async (req, res) => {
   try {
     const messages = await services[service].parser(req.body, req.query, req);
 
+    if (!messages) {
+      res.status(200).json({ msg: `No messages were sent.` });
+      return;
+    }
+
     for (const message of messages) {
       const text =
         (req.query.prepend ? `${req.query.prepend}\n` : "") +
