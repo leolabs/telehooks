@@ -1,5 +1,5 @@
 import { emojify } from "node-emoji";
-import { Service, ServiceParser, ParserOutput } from "..";
+import { Service, ServiceParser, ParserOutput, DefaultSettings } from "..";
 import { IncomingWebhookSendArguments } from "@slack/webhook";
 import { parseText, parseButtons } from "./parsers";
 
@@ -7,7 +7,7 @@ const MSG_BUILDER = "https://api.slack.com/docs/messages/builder";
 
 const parser: ServiceParser = async (
   input: IncomingWebhookSendArguments,
-  settings,
+  settings: DefaultSettings,
 ) => {
   const debugUrl = `${MSG_BUILDER}?msg=${encodeURIComponent(
     JSON.stringify(input),

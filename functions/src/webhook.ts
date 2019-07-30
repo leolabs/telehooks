@@ -47,8 +47,13 @@ app.post("/:chatId/:key/:service?", async (req, res) => {
     const messages = await services[service].parser(body, req.query);
 
     for (const message of messages) {
+      const text =
+        (req.query.prepend ? `${req.query.prepend}\n` : "") +
+        message.text +
+        (req.query.append ? `\n${req.query.append}` : "");
+
       await sendMessage(
-        { ...message, chat_id: chatId, parse_mode: "Markdown" },
+        { ...message, text, chat_id: chatId, parse_mode: "Markdown" },
         key,
       );
     }
