@@ -23,7 +23,8 @@
     "firebase-admin": "^8.0.0",
     "firebase-functions": "^3.1.0",
     "got": "^9.6.0",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "node-emoji": "^1.10.0"
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.0",
@@ -33,6 +34,7 @@
     "@types/got": "^9.6.2",
     "@types/jest": "^24.0.15",
     "@types/lodash": "^4.14.136",
+    "@types/node-emoji": "^1.8.1",
     "jest": "^24.8.0",
     "ts-jest": "^24.0.2",
     "tslint": "^5.12.0",

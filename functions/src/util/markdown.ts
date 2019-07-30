@@ -6,9 +6,7 @@ const replacements: [RegExp, string][] = [
   [/\)/g, "\\)"],
   [/\[/g, "\\["],
   [/\]/g, "\\]"],
-  [/\</g, "&lt;"],
-  [/\>/g, "&gt;"],
-  [/_/g, "\\_"],
+  [/( _|_ )/g, "\\_"],
 ];
 
 export const escape = (input: string) =>
