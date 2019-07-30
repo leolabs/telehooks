@@ -1,7 +1,6 @@
 import * as firebase from "firebase-functions";
 import express from "express";
 import bodyParser from "body-parser";
-import { IncomingWebhookSendArguments } from "@slack/webhook";
 import { sendMessage } from "./util/telegram";
 import { services } from "./services/";
 import { hash } from "./util/hash";
@@ -44,7 +43,7 @@ app.post("/:chatId/:key/:service?", async (req, res) => {
   }
 
   try {
-    const messages = await services[service].parser(body, req.query);
+    const messages = await services[service].parser(req.body, req.query, req);
 
     for (const message of messages) {
       const text =

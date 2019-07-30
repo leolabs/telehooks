@@ -1,3 +1,4 @@
+import { Request } from "express";
 import { SendMessageParams } from "../types/telegram-api";
 
 import { slack } from "./slack";
@@ -13,7 +14,8 @@ export interface DefaultSettings {
 export type ServiceParser = (
   input: any,
   settings: { [k: string]: string },
-) => Promise<ParserOutput>;
+  request: Request,
+) => Promise<ParserOutput | null>;
 
 export interface Service {
   name: string;
