@@ -53,3 +53,6 @@ export const parseButtons = (
 
   return actions.length ? { inline_keyboard: chunk(actions, 2) } : undefined;
 };
+
+export const parseLinks = (input: string) =>
+  input.replace(/\<(.+)\|(.+?)\>/g, "[$2]($1)");
