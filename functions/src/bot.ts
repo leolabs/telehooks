@@ -2,6 +2,8 @@ import * as firebase from "firebase-functions";
 import { stripIndents, oneLine } from "common-tags";
 import { sendMessage, DEFAULT_KEY } from "./util/telegram";
 import { hash } from "./util/hash";
+import { TelegramWebhook } from "./types/telegram-webhook";
+import { escape } from "./util/markdown";
 
 const HOOK_URL = firebase.config().telehooks.url;
 
@@ -26,7 +28,7 @@ const aboutText = stripIndents`
 `;
 
 export const telegramUpdate = firebase.https.onRequest(async (req, res) => {
-  const { message } = req.body;
+  const { message } = req.body as TelegramWebhook;
 
   if (!message) {
     return;
@@ -89,19 +91,33 @@ export const telegramUpdate = firebase.https.onRequest(async (req, res) => {
       Hey there!
 
       Thanks for adding me to your group! 🎉
-
-      Here's your Webhook URL:
-      \`${hookUrl(message.chat.id)}\`
-
-      You can use this URL with every service that accepts a Slack Webhook URL. To
-      learn more and to customize the webhook, please visit my homepage.
-
-      ${aboutText}
+      I'll send you the webhook URL to as a direct message.
     `;
 
     await sendMessage({
       chat_id: message.chat.id,
       text,
+      parse_mode: "Markdown",
+      disable_web_page_preview: true,
+    });
+
+    const dmText = stripIndents`
+      Hey ${message.from.first_name}!
+
+      You've just added me to ${
+        message.chat.title
+          ? `the group *${escape(message.chat.title)}*`
+          : "a group"
+      }.
+
+      Here's your webhook URL:
+
+      \`${hookUrl(message.chat.id)}\`
+    `;
+
+    await sendMessage({
+      chat_id: message.from.id,
+      text: dmText,
       reply_markup: {
         inline_keyboard: [
           [
