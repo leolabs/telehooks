@@ -55,4 +55,4 @@ export const parseButtons = (
 };
 
 export const parseLinks = (input: string) =>
-  input.replace(/\<(.+)\|(.+?)\>/g, "[$2]($1)");
+  input.replace(/\<(.*\/\/.+)\|(.+?)\>/g, "[$2]($1)");
