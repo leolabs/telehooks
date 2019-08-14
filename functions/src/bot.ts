@@ -119,7 +119,7 @@ export const telegramUpdate = firebase.https.onRequest(async (req, res) => {
     });
 
     if (!dmRes.body.ok) {
-      const text = stripIndents`
+      const errorText = stripIndents`
         Hey there!
 
         Thanks for adding me to your group! 🎉
@@ -130,7 +130,7 @@ export const telegramUpdate = firebase.https.onRequest(async (req, res) => {
 
       await sendMessage({
         chat_id: message.chat.id,
-        text,
+        text: errorText,
         parse_mode: "Markdown",
         disable_web_page_preview: true,
       });
