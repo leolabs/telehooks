@@ -1,3 +1,10 @@
+export interface Response {
+  ok: boolean;
+  result?: any;
+  error_code?: number;
+  description?: string;
+}
+
 export interface SendMessageParams {
   chat_id: number | string;
   text: string;

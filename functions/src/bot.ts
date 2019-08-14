@@ -87,20 +87,6 @@ export const telegramUpdate = firebase.https.onRequest(async (req, res) => {
     (message.new_chat_member &&
       message.new_chat_member.username === "TelehooksBot")
   ) {
-    const text = stripIndents`
-      Hey there!
-
-      Thanks for adding me to your group! 🎉
-      I'll send you the webhook URL to as a direct message.
-    `;
-
-    await sendMessage({
-      chat_id: message.chat.id,
-      text,
-      parse_mode: "Markdown",
-      disable_web_page_preview: true,
-    });
-
     const dmText = stripIndents`
       Hey ${message.from.first_name}!
 
@@ -115,7 +101,7 @@ export const telegramUpdate = firebase.https.onRequest(async (req, res) => {
       \`${hookUrl(message.chat.id)}\`
     `;
 
-    await sendMessage({
+    const dmRes = await sendMessage({
       chat_id: message.from.id,
       text: dmText,
       reply_markup: {
@@ -132,8 +118,41 @@ export const telegramUpdate = firebase.https.onRequest(async (req, res) => {
       disable_web_page_preview: true,
     });
 
+    if (!dmRes.body.ok) {
+      const text = stripIndents`
+        Hey there!
+
+        Thanks for adding me to your group! 🎉
+        ${oneLine`I couldn't send you the webhook URL as a private message because
+        you've never messaged me privately before. Please do that first and then
+        add me to this group again.`}
+      `;
+
+      await sendMessage({
+        chat_id: message.chat.id,
+        text,
+        parse_mode: "Markdown",
+        disable_web_page_preview: true,
+      });
+      return res.json({ success: true });
+    }
+
+    const text = stripIndents`
+      Hey there!
+
+      Thanks for adding me to your group! 🎉
+      I've sent you the webhook URL as a direct message.
+    `;
+
+    await sendMessage({
+      chat_id: message.chat.id,
+      text,
+      parse_mode: "Markdown",
+      disable_web_page_preview: true,
+    });
+
     return res.json({ success: true });
   }
 
-  return res.json({ success: true });
+  return;
 });
